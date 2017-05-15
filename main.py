@@ -17,10 +17,17 @@
 import os
 import webapp2
 
+html = """
 <form>
+<h1>Add Food </h1>
+<input type = "text" name="food">
+<button>Add</button>
+</form>
+"""
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello World!')
+        self.response.write(html)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
