@@ -17,17 +17,45 @@
 import os
 import webapp2
 
-html = """
+form_html ="""
 <form>
 <h1>Add Food </h1>
 <input type = "text" name="food">
+%s
 <button>Add</button>
 </form>
 """
 
+hidden_html="""
+<input type="hidden" name="food" value=%s>
+"""
+item_html="<li>%s</li>"
+
+Shopping_list_html="""
+<br>
+<br>
+<h2>Shopping List </h2>
+<ul>
+%s
+</ul>
+"""
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write(html)
+        output=form_html
+        hidden_output=""
+
+        items=self.request.get_all("food")
+        if items:
+            output_items=""
+            for item in items:
+                hidden_output=hidden_output+hidden_html %item
+                output_items=output_items+item_html %item
+            output_Shopping=Shopping_list_html %output_items
+            output = output+ output_Shopping
+        output = output % hidden_output
+
+        self.response.out.write(output)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
