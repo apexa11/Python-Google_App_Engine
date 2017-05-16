@@ -8,13 +8,13 @@
     <h1>Add Food </h1>
     <input type = "text" name="food">
     <button>Add</button>
-    <!-- if statment -->
+    <!-- for loop -->
+    <ul>
+    {% for x in range(1,n+1) %}
+        <li>{{x ** 2}}</li>
 
-    {% if n == 1 %}
-        n equals to 1
-    {% else %}
-        n not equals to 1
-    {% endif %}
+    {% endfor %}
+    </ul>
 </form>
 
 </body>

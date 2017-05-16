@@ -53,7 +53,7 @@ class MainHandler(Handler):
         n=self.request.get("n")
         if n:
             n = int(n)
-        self.render("shopping_list.html", n=n)
+        self.render("shopping_list.html", n = n)
 
 
         #output=form_html
