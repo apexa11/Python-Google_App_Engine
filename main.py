@@ -23,19 +23,8 @@ template_dir = os.path.join(os.path.dirname(__file__),'templates')
 #add jinja environment
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
-hidden_html="""
-<input type="hidden" name="food" value=%s>
-"""
-item_html="<li>%s</li>"
 
-Shopping_list_html="""
-<br>
-<br>
-<h2>Shopping List </h2>
-<ul>
-%s
-</ul>
-"""
+
 
 class Handler(webapp2.RequestHandler):
     def write(self,*a,**kw):
@@ -50,26 +39,9 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        n=self.request.get("n")
-        if n:
-            n = int(n)
-        self.render("shopping_list.html", n = n)
+        items=self.request.get_all("food")
+        self.render("shopping_list.html", items = items)
 
-
-        #output=form_html
-        #hidden_output=""
-
-        #items=self.request.get_all("food")
-        #if items:
-            #output_items=""
-            #for item in items:
-                #hidden_output=hidden_output+hidden_html %item
-                #output_items=output_items+item_html %item
-            #output_Shopping=Shopping_list_html %output_items
-            #output = output+ output_Shopping
-        #output = output % hidden_output
-
-        #self.write(output)
 
 class FizzBuzzHandler(Handler):
     def get(self):
