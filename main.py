@@ -50,7 +50,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("shopping_list.html")
+        self.render("shopping_list.html",name=self.request.get("name"))
 
 
         #output=form_html
