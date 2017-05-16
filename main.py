@@ -15,16 +15,13 @@
 # limitations under the License.
 #
 import os
+import jinja2
 import webapp2
 
-form_html ="""
-<form>
-<h1>Add Food </h1>
-<input type = "text" name="food">
-%s
-<button>Add</button>
-</form>
-"""
+#set templet directory
+template_dir = os.path.join(os.path.dirname(__file__),'templates')
+#add jinja environment
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
 hidden_html="""
 <input type="hidden" name="food" value=%s>
@@ -40,22 +37,36 @@ Shopping_list_html="""
 </ul>
 """
 
-class MainHandler(webapp2.RequestHandler):
+class Handler(webapp2.RequestHandler):
+    def write(self,*a,**kw):
+        self.response.out.write(*a,**kw)
+
+    def render_str(self, template, **params):
+        t = jinja_env.get_template(template)
+        return t.render(params)
+
+    def render(self, template, **kw):
+        self.write(self.render_str(template , **kw))
+
+class MainHandler(Handler):
     def get(self):
-        output=form_html
-        hidden_output=""
+        self.render("shopping_list.html")
 
-        items=self.request.get_all("food")
-        if items:
-            output_items=""
-            for item in items:
-                hidden_output=hidden_output+hidden_html %item
-                output_items=output_items+item_html %item
-            output_Shopping=Shopping_list_html %output_items
-            output = output+ output_Shopping
-        output = output % hidden_output
 
-        self.response.out.write(output)
+        #output=form_html
+        #hidden_output=""
+
+        #items=self.request.get_all("food")
+        #if items:
+            #output_items=""
+            #for item in items:
+                #hidden_output=hidden_output+hidden_html %item
+                #output_items=output_items+item_html %item
+            #output_Shopping=Shopping_list_html %output_items
+            #output = output+ output_Shopping
+        #output = output % hidden_output
+
+        #self.write(output)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
