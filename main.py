@@ -21,7 +21,8 @@ import webapp2
 #set templet directory
 template_dir = os.path.join(os.path.dirname(__file__),'templates')
 #add jinja environment
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
+    autoescape = True)
 
 
 
