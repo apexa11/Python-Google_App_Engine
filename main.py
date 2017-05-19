@@ -38,17 +38,18 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        items=self.request.get_all("food")
-        self.render("shopping_list.html", items = items)
+        self.render("form.html")
 
-#fizzbuzz
-class FizzBuzzHandler(Handler):
-    def get(self):
-        n = self.request.get("n",0)
-        n = n and int(n)
-        self.render("fizzbuzz.html", n = n)
+    def post(self):
+        title = self.request.get("title")
+        art = self.request.get("art")
+
+        if title and art:
+            self.write("thanks!")
+        else:
+            error = "we need both title and art"
+            self.render("form.html", error = error)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/fizzbuzz', FizzBuzzHandler),
 ], debug=True)
