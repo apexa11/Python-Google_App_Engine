@@ -18,6 +18,8 @@ import os
 import jinja2
 import webapp2
 
+from google.appengine.ext import db
+
 #set templet directory
 template_dir = os.path.join(os.path.dirname(__file__),'templates')
 #add jinja environment
@@ -36,9 +38,21 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template , **kw))
 
+#this one is extended by google appengine db
+class Art(db.Model):
+    title = db.StringProperty(required = True)
+    art = db.Textproperty(required = True)
+    created = db.DateTimeProperty(auto_now_add = True)
+
+
+
+
 class MainHandler(Handler):
+    def render_front(self, title = " " , art = " ", error = " "):
+        self.render("form.html",title = title, art= art,error=error)
+
     def get(self):
-        self.render("form.html")
+        self.render_front()
 
     def post(self):
         title = self.request.get("title")
@@ -48,7 +62,7 @@ class MainHandler(Handler):
             self.write("thanks!")
         else:
             error = "we need both title and art"
-            self.render("form.html", error = error)
+            self.render_front(title ,art ,error)
 
 class FizzBuzzHandler(Handler):
     def get(self):
