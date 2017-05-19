@@ -44,9 +44,6 @@ class Art(db.Model):
     art = db.Textproperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
 
-
-
-
 class MainHandler(Handler):
     def render_front(self, title = " " , art = " ", error = " "):
         self.render("form.html",title = title, art= art,error=error)
@@ -59,7 +56,10 @@ class MainHandler(Handler):
         art = self.request.get("art")
 
         if title and art:
-            self.write("thanks!")
+            a = Art(title = title, art = art)
+            a.put()
+
+            self.redirect('/')
         else:
             error = "we need both title and art"
             self.render_front(title ,art ,error)
