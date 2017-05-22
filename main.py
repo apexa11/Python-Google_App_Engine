@@ -41,12 +41,13 @@ class Handler(webapp2.RequestHandler):
 #this one is extended by google appengine db
 class Art(db.Model):
     title = db.StringProperty(required = True)
-    art = db.Textproperty(required = True)
+    art = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
 
 class MainHandler(Handler):
-    def render_front(self, title = " " , art = " ", error = " "):
-        self.render("form.html",title = title, art= art,error=error)
+    def render_front(self, title = "" , art = "", error = ""):
+        arts = db.GqlQuery("SELECT * FROM Art ORDER BY created DESC")
+        self.render("form.html",title = title, art= art, error=error, arts = arts)
 
     def get(self):
         self.render_front()

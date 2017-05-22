@@ -7,16 +7,29 @@
 <form method="post">
     <label>
         <div> Title </div>
-        <input type="text" name="title">
+        <input type="text" name="title" value="{{title}}">
     </label>
     <label>
         <div> Art </div>
-        <textarea name="art"></textarea>
+        <textarea name="art">{{art}}</textarea>
     </label>
     <br>
     <br>
     <div class="error">{{error}}</div>
 
     <input type="submit">
+</form>
+
+<hr>
+{% for art in arts %}
+    <div class="art">
+        <div class="art-title">{{art.title}}</div>
+        <!-- pre class use for white spaces -->
+        <pre class="art-body">{{art.art}}</pre>
+    </div>
+{% endfor %}
+
+
+
 </body>
 </html>
